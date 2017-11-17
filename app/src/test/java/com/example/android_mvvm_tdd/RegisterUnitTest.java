@@ -50,7 +50,7 @@ public class RegisterUnitTest {
 
         //use mockito to verify that the showNameError() method is called in the screen object
         Mockito.verify(registerScreen).showNameError();
-        Mockito.verify(registerScreen, Mockito.never()).showRegisterSuccess();
+        Mockito.verify(registerScreen, Mockito.times(1)).showRegisterSuccess();
     }
 
     @Test
