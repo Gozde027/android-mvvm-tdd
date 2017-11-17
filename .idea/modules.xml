@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/androidmvvmtdd.iml" filepath="$PROJECT_DIR$/androidmvvmtdd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-mvvm-tdd.iml" filepath="$PROJECT_DIR$/android-mvvm-tdd.iml" />
+      <module fileurl="file://D:\personal\learn\android\android-mvvm-tdd\androidmvvmtdd.iml" filepath="D:\personal\learn\android\android-mvvm-tdd\androidmvvmtdd.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\personal\learn\android\android-mvvm-tdd\app\app.iml" filepath="D:\personal\learn\android\android-mvvm-tdd\app\app.iml" />
     </modules>
   </component>
 </project>
