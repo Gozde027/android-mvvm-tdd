@@ -61,7 +61,6 @@ public class RegisterModel {
     }
 
 
-
     //getters and setters
 
     public String getName() {

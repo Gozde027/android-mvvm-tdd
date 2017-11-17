@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 public class RegisterUnitTest {
 
-    @Mock
+    @Mock //Mock annotation tells Mockito to give a mocked object
     RegisterScreen registerScreen;
 
     //class that is being tested
@@ -28,7 +28,8 @@ public class RegisterUnitTest {
     final String dummyAddress = "Address line 1, Address line 2";
 
     @Before
-    public void setupRegisterViewModel(){ //this function will be called before all tests are run
+    public void setupRegisterViewModel(){
+        //this function will be called before all tests are run
 
         // call this function to init all objects annotated with @mock
         MockitoAnnotations.initMocks(this);
@@ -49,6 +50,17 @@ public class RegisterUnitTest {
 
         //use mockito to verify that the showNameError() method is called in the screen object
         Mockito.verify(registerScreen).showNameError();
+        Mockito.verify(registerScreen, Mockito.never()).showRegisterSuccess();
+    }
+
+    @Test
+    public void registerUserWithValidName_dontShowNameError(){
+        registerViewModel.getRegisterModel().setName("Vivek");
+        registerViewModel.doRegister();
+
+        //use mockito to verify that the showNameError() method is not called in the screen object
+        Mockito.verify(registerScreen, Mockito.never()).showNameError();
+        Mockito.verify(registerScreen).showRegisterSuccess();
     }
 
     @Test

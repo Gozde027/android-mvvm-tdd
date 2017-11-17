@@ -8,7 +8,6 @@ import com.example.android_mvvm_tdd.Screen;
 
 public interface RegisterScreen extends Screen {
 
-
     void showNameError();
     void showPhoneError();
     void showEmailError();
@@ -16,4 +15,5 @@ public interface RegisterScreen extends Screen {
 
     void showRegisterSuccess();
     void showRegisterFailed();
+
 }

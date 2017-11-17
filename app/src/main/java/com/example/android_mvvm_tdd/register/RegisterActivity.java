@@ -62,9 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterScree
         }
     }
 
-
     //screen functions
-
 
     @Override
     public void showNameError() {

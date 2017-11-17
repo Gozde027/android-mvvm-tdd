@@ -16,7 +16,6 @@ public class RegisterViewModel {
     public RegisterViewModel(RegisterScreen registerScreen, ILogger logger) {
         this.registerScreen = registerScreen;
 
-        //view model initialising code goes here
         this.registerModel = new RegisterModel(logger);
     }
 
@@ -57,8 +56,5 @@ public class RegisterViewModel {
     public RegisterModel getRegisterModel() {
         return registerModel;
     }
-
-
-    //getters and setters
 
 }
