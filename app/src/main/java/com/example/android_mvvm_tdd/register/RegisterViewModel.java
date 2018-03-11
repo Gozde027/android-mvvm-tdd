@@ -27,25 +27,21 @@ public class RegisterViewModel {
                 boolean hasError = false;
 
                 if (!registerModel.isNameValid()){
-//                    registerScreen.showNameError();
                     hasError = true;
                     emitter.onNext(new RegisterViewModelCommand.RegisterViewModelCommandNameError());
                 }
 
                 if (!registerModel.isEmailValid()){
-//                    registerScreen.showEmailError();
                     hasError = true;
                     emitter.onNext(new RegisterViewModelCommand.RegisterViewModelCommandEmailError());
                 }
 
                 if (!registerModel.isPhoneValid()){
-//                    registerScreen.showPhoneError();
                     hasError = true;
                     emitter.onNext(new RegisterViewModelCommand.RegisterViewModelCommandPhoneNoError());
                 }
 
                 if (!registerModel.isAddressValid()){
-//                    registerScreen.showAddressError();
                     hasError = true;
                     emitter.onNext(new RegisterViewModelCommand.RegisterViewModelCommandAddressError());
                 }
@@ -53,7 +49,6 @@ public class RegisterViewModel {
 
                 if (!hasError){
                     registerModel.register();
-//                    registerScreen.showRegisterSuccess();
                     emitter.onNext(new RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
                 }
 
