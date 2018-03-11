@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,13 +13,17 @@ import com.example.android_mvvm_tdd.R;
 import com.example.android_mvvm_tdd.databinding.ActivityRegisterBinding;
 import com.example.android_mvvm_tdd.util.Logger;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterScreen, View.OnClickListener{
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String TAG = RegisterActivity.class.getSimpleName();
 
     ActivityRegisterBinding dataBinding;
 
     RegisterViewModel registerViewModel;
+    private Observable<RegisterViewModel.RegisterViewModelCommand> registerObservable;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, RegisterActivity.class);
@@ -30,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterScree
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
 
-        registerViewModel = new RegisterViewModel(this, new Logger());
+        registerViewModel = new RegisterViewModel(new Logger());
 
         initUI();
 
@@ -42,8 +47,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterScree
         dataBinding.btnRegister.setOnClickListener(this);
     }
 
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_register:
@@ -57,44 +60,83 @@ public class RegisterActivity extends AppCompatActivity implements RegisterScree
                 registerViewModel.getRegisterModel().setAddress(dataBinding.txtRegisterAddress
                         .getText().toString());
 
-                registerViewModel.doRegister();
+                registerObservable = registerViewModel.doRegister();
+                registerObservable.subscribe(registerSubscriber);
+
                 break;
         }
     }
 
+    Observer<RegisterViewModel.RegisterViewModelCommand> registerSubscriber = new Observer<RegisterViewModel.RegisterViewModelCommand>() {
+        @Override
+        public void onSubscribe(Disposable d) {
+            Log.d(TAG, "onSubscribe() called with: d = [" + d + "]");
+        }
+
+        @Override
+        public void onNext(RegisterViewModel.RegisterViewModelCommand registerViewModelCommand) {
+            Log.d(TAG, "onNext() called with: registerViewModelCommand = [" + registerViewModelCommand + "]");
+
+            if (registerViewModelCommand instanceof RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandNameError){
+                showNameError();
+            }
+
+            if (registerViewModelCommand instanceof RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandEmailError){
+                showEmailError();
+            }
+
+            if (registerViewModelCommand instanceof RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandAddressError){
+                showAddressError();
+            }
+
+            if (registerViewModelCommand instanceof RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandPhoneNoError){
+                showPhoneError();
+            }
+
+            if (registerViewModelCommand instanceof RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess){
+                showRegisterSuccess();
+            }
+
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.d(TAG, "onError() called with: e = [" + e + "]");
+        }
+
+        @Override
+        public void onComplete() {
+            Log.d(TAG, "onComplete() called");
+        }
+    };
+
     //screen functions
 
-    @Override
     public void showNameError() {
         dataBinding.txtRegisterName.setError("Please enter a valid name");
     }
 
-    @Override
     public void showPhoneError() {
         dataBinding.txtRegisterPhone.setError("Please enter a valid phone no");
     }
 
-    @Override
     public void showEmailError() {
         dataBinding.txtRegisterEmail.setError("Please enter a valid email");
     }
 
-    @Override
     public void showAddressError() {
         dataBinding.txtRegisterAddress.setError("Please enter a valid address");
     }
 
-    @Override
     public void showRegisterSuccess() {
         showToast("User registered");
     }
 
-    @Override
     public void showRegisterFailed() {
         showToast("User registration failed");
     }
 
-    @Override
     public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

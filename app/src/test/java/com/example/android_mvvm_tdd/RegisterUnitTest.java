@@ -35,7 +35,7 @@ public class RegisterUnitTest {
         MockitoAnnotations.initMocks(this);
 
         //we create an instance of the class to be tested by passing the mocked object
-        registerViewModel = new RegisterViewModel(registerScreen, new UnitTestLogger());
+        registerViewModel = new RegisterViewModel(new UnitTestLogger());
 
         registerViewModel.getRegisterModel().setName(dummyName);
         registerViewModel.getRegisterModel().setEmail(dummyEmail);
