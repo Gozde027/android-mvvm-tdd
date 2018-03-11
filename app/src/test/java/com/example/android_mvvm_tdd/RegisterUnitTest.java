@@ -10,14 +10,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
+
 /**
  * Created by vivek on 05/11/17.
  */
 
 public class RegisterUnitTest {
-
-    @Mock //Mock annotation tells Mockito to give a mocked object
-    RegisterScreen registerScreen;
 
     //class that is being tested
     RegisterViewModel registerViewModel;
@@ -29,11 +29,6 @@ public class RegisterUnitTest {
 
     @Before
     public void setupRegisterViewModel(){
-        //this function will be called before all tests are run
-
-        // call this function to init all objects annotated with @mock
-        MockitoAnnotations.initMocks(this);
-
         //we create an instance of the class to be tested by passing the mocked object
         registerViewModel = new RegisterViewModel(new UnitTestLogger());
 
@@ -45,57 +40,76 @@ public class RegisterUnitTest {
 
     @Test
     public void registerUserWithEmptyName_showsNameError(){
-        registerViewModel.getRegisterModel().setName("");
-        registerViewModel.doRegister();
+        TestObserver<RegisterViewModel.RegisterViewModelCommand> testObserver = new TestObserver<>();
 
-        //use mockito to verify that the showNameError() method is called in the screen object
-        Mockito.verify(registerScreen).showNameError();
-        Mockito.verify(registerScreen, Mockito.never()).showRegisterSuccess();
+        registerViewModel.getRegisterModel().setName("");
+        registerViewModel.doRegister().subscribe(testObserver);
+
+        testObserver.assertNoErrors();
+        testObserver.assertValue(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandNameError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
+
     }
 
     @Test
     public void registerUserWithValidName_dontShowNameError(){
+        TestObserver<RegisterViewModel.RegisterViewModelCommand> testObserver = new TestObserver<>();
         registerViewModel.getRegisterModel().setName("Vivek");
-        registerViewModel.doRegister();
+        registerViewModel.doRegister().subscribe(testObserver);
 
-        //use mockito to verify that the showNameError() method is not called in the screen object
-        Mockito.verify(registerScreen, Mockito.never()).showNameError();
-        Mockito.verify(registerScreen).showRegisterSuccess();
+        testObserver.assertNoErrors();
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandNameError());
+        testObserver.assertValue(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
+
     }
 
     @Test
     public void registerUserWithEmptyEmail_showsEmailError(){
+        TestObserver<RegisterViewModel.RegisterViewModelCommand> testObserver = new TestObserver<>();
         registerViewModel.getRegisterModel().setEmail("");
-        registerViewModel.doRegister();
+        registerViewModel.doRegister().subscribe(testObserver);
 
-        //use mockito to verify that the showEmailError() method is called in the screen object
-        Mockito.verify(registerScreen).showEmailError();
+        testObserver.assertNoErrors();
+        testObserver.assertValue(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandEmailError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
+
     }
 
     @Test
     public void registerUserWithEmptyPhone_showsPhoneError(){
+        TestObserver<RegisterViewModel.RegisterViewModelCommand> testObserver = new TestObserver<>();
         registerViewModel.getRegisterModel().setPhoneNo("");
-        registerViewModel.doRegister();
+        registerViewModel.doRegister().subscribe(testObserver);
 
-        //use mockito to verify that the showNameError() method is called in the screen object
-        Mockito.verify(registerScreen).showPhoneError();
+
+        testObserver.assertNoErrors();
+        testObserver.assertValue(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandPhoneNoError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
     }
 
     @Test
     public void registerUserWithEmptyAddress_showsAddressError(){
+        TestObserver<RegisterViewModel.RegisterViewModelCommand> testObserver = new TestObserver<>();
         registerViewModel.getRegisterModel().setAddress("");
-        registerViewModel.doRegister();
+        registerViewModel.doRegister().subscribe(testObserver);
 
-        //use mockito to verify that the showNameError() method is called in the screen object
-        Mockito.verify(registerScreen).showAddressError();
+        testObserver.assertNoErrors();
+        testObserver.assertValue(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandAddressError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
     }
 
 
     @Test
     public void registerUserWithAllDetails_shouldCallRegisterSuccess(){
-        registerViewModel.doRegister();
+        TestObserver<RegisterViewModel.RegisterViewModelCommand> testObserver = new TestObserver<>();
+        registerViewModel.doRegister().subscribe(testObserver);
 
-        Mockito.verify(registerScreen).showRegisterSuccess();
+        testObserver.assertNoErrors();
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandNameError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandPhoneNoError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandEmailError());
+        testObserver.assertNever(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandAddressError());
+        testObserver.assertValue(new RegisterViewModel.RegisterViewModelCommand.RegisterViewModelCommandRegisterSuccess());
     }
 
 }

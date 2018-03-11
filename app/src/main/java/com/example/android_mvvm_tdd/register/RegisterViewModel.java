@@ -69,22 +69,43 @@ public class RegisterViewModel {
 
         class RegisterViewModelCommandNameError implements RegisterViewModelCommand {
             public RegisterViewModelCommandNameError() {}
+
+            @Override
+            public boolean equals(Object obj) {
+                return obj instanceof RegisterViewModelCommandNameError;
+            }
         }
 
         class RegisterViewModelCommandEmailError implements RegisterViewModelCommand {
             public RegisterViewModelCommandEmailError() {}
+            @Override
+            public boolean equals(Object obj) {
+                return obj instanceof RegisterViewModelCommandEmailError;
+            }
         }
 
         class RegisterViewModelCommandPhoneNoError implements RegisterViewModelCommand {
             public RegisterViewModelCommandPhoneNoError() {}
+            @Override
+            public boolean equals(Object obj) {
+                return obj instanceof RegisterViewModelCommandPhoneNoError;
+            }
         }
 
         class RegisterViewModelCommandAddressError implements RegisterViewModelCommand {
             public RegisterViewModelCommandAddressError() {}
+            @Override
+            public boolean equals(Object obj) {
+                return obj instanceof RegisterViewModelCommandAddressError;
+            }
         }
 
         class RegisterViewModelCommandRegisterSuccess implements RegisterViewModelCommand {
             public RegisterViewModelCommandRegisterSuccess() {}
+            @Override
+            public boolean equals(Object obj) {
+                return obj instanceof RegisterViewModelCommandRegisterSuccess;
+            }
         }
 
     }
