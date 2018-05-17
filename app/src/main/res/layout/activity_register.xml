@@ -46,7 +46,7 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="Name"
-                        android:text="@{data.registerModel.name}"/>
+                        android:text="@={data.registerModel.name}"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -63,7 +63,7 @@
                         android:maxLength="10"
                         android:singleLine="true"
                         android:hint="Phone"
-                        android:text="@{data.registerModel.phoneNo}"/>
+                        android:text="@={data.registerModel.phoneNo}"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -79,7 +79,7 @@
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
                         android:hint="Email"
-                        android:text="@{data.registerModel.email}"/>
+                        android:text="@={data.registerModel.email}"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -95,7 +95,7 @@
                         android:inputType="textPostalAddress"
                         android:singleLine="false"
                         android:hint="Address"
-                        android:text="@{data.registerModel.address}"/>
+                        android:text="@={data.registerModel.address}"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -104,7 +104,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Register"/>
+                    android:text="Register"
+                    android:onClick="@{()->data.doRegister()}"/>
 
             </LinearLayout>
 
