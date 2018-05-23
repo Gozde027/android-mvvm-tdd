@@ -12,7 +12,7 @@ import com.example.android_mvvm_tdd.R;
 import com.example.android_mvvm_tdd.databinding.ActivityRegisterBinding;
 import com.example.android_mvvm_tdd.util.Logger;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterScreen, View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity implements RegisterScreen {
 
     public static final String TAG = RegisterActivity.class.getSimpleName();
 
@@ -32,34 +32,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterScree
 
         registerViewModel = new RegisterViewModel(this, new Logger());
 
-        initUI();
-
         //using data binding to set the view model to the view
         dataBinding.setData(registerViewModel);
-    }
-
-    private void initUI() {
-        dataBinding.btnRegister.setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn_register:
-
-                registerViewModel.getRegisterModel().setName(dataBinding.txtRegisterName
-                        .getText().toString());
-                registerViewModel.getRegisterModel().setEmail(dataBinding.txtRegisterEmail
-                        .getText().toString());
-                registerViewModel.getRegisterModel().setPhoneNo(dataBinding.txtRegisterPhone
-                        .getText().toString());
-                registerViewModel.getRegisterModel().setAddress(dataBinding.txtRegisterAddress
-                        .getText().toString());
-
-                registerViewModel.doRegister();
-                break;
-        }
     }
 
     //screen functions
